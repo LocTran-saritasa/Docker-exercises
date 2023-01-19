@@ -18,6 +18,10 @@ app.use(express.json());
 // router
 route(app);
 
+app.get('/', (req, res, next) => {
+    res.send('API')
+})
+
 app.listen(port, () => {
     console.log("App listening at port: ", port);
 })
