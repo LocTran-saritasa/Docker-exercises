@@ -1,8 +1,10 @@
 import express from 'express';
 import route from './routes/index.js';
 
-import dotenv from 'dotenv';
-dotenv.config();
+import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
+dotenv.config()
+
+import { client, connectToDB } from './db/index.js';
 
 const port = 8000 || process.env.PORT;
 const app  = express();
@@ -18,8 +20,11 @@ app.use(express.json());
 // router
 route(app);
 
-app.get('/', (req, res, next) => {
-    res.send('API')
+connectToDB();
+app.get('/', async (req, res, next) => {
+    const users = await client.query('SELECT * FROM User')
+    console.log(users)
+    res.json(users.rows[0])
 })
 
 app.listen(port, () => {

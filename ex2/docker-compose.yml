@@ -1,14 +1,14 @@
 services:
   db:
-    build: ./db
+    image: postgres:latest
     ports:
       - 5432:5432
     environment:
       - POSTGRES_USER=user
       - POSTGRES_PASSWORD=saritasa
-      - POSTGRES_DB=auth
+      - POSTGRES_DB=postgres
     volumes:
-      - ./var/pgdata:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
   api:
     build: ./api
     ports:
@@ -17,3 +17,6 @@ services:
     build: ./ui
     ports:
       - 3000:3000
+volumes:
+  postgresdb:
+    driver: local
