@@ -25,7 +25,9 @@ function* loginUserWorker(action: ReturnType<typeof AuthActions.login>): SagaIte
     yield put(UserActions.get());
   } catch (error: unknown) {
     if (isApiError(error)) {
+      console.log(error)
       const appError = AppErrorMapper.fromDtoWithValidationSupport(error, loginMapper);
+      console.log(appError.validationData?.email)
       yield put(AuthActions.loginFailure(appError));
     }
     throw error;

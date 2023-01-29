@@ -11,8 +11,11 @@ class AuthController {
         const user = users.find(user => user.email === email && user.password === password)
 
         if (user == null) {
-            res.status(400).json({
-                detail: 'Unable to log in with provided credentials.'
+            return res.status(400).json({
+                data: {
+                    non_field_errors: ['Unable to log in with provided credentials.'],
+                },
+                detail: 'Unable to log in with provided credentials.',
             })
         }
 

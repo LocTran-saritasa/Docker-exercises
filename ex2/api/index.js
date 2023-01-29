@@ -5,9 +5,12 @@ import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-d
 dotenv.config()
 
 import { client, connectToDB } from './db/index.js';
+import cors from 'cors';
+
 
 const port = 8000 || process.env.PORT;
 const app  = express();
+app.use(cors())
 
 // Middleware: read body of post method
 app.use(
