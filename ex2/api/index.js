@@ -24,11 +24,6 @@ app.use(express.json());
 route(app);
 
 connectToDB();
-app.get('/', async (req, res, next) => {
-    const users = await client.query('SELECT * FROM User')
-    console.log(users)
-    res.json(users.rows[0])
-})
 
 app.listen(port, () => {
     console.log("App listening at port: ", port);
