@@ -1,9 +1,8 @@
 import express from 'express';
+import { authController } from '../controllers/authController.js';
 
 const router = express.Router();
 
-router.get('/login', (req, res, next) => {
-    res.send('Login route');
-})
+router.post('/login', authController.login)
 
 export const authRoute = router;
