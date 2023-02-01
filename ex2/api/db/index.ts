@@ -8,9 +8,8 @@ const client = new Client({
   user: process.env.DB_USER,
   database: process.env.DB_NAME,
   password: process.env.DB_PASSWORD,
-  port: '5432',
+  port: 5432,
 });
-
 
 const connectToDB = async () => {
   try {
