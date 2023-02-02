@@ -9,14 +9,14 @@ services:
       - POSTGRES_DB=auth
     volumes:
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
-  # api:
-  #   build: ./api
-  #   ports:
-  #     - 8000:8000
-  #   depends_on:
-  #     - db
-  #   restart: on-failure:10
-  # ui:
-  #   build: ./ui
-  #   ports:
-  #     - 3000:3000
+  api:
+    build: ./api
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+    restart: on-failure:10
+  ui:
+    build: ./ui
+    ports:
+      - 3000:3000
