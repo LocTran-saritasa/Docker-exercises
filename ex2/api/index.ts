@@ -10,14 +10,21 @@ const port = 8000 || process.env.PORT;
 
 connectToDB();
 
-const requestListener = (request: http.IncomingMessage, response: http.ServerResponse) => {
-    if (request.method === 'POST' && request.url === '/login') {
-        authController.login(request, response);
-      } else {
-        response.statusCode = 404;
-        response.end();
-      }
+const requestListener = (req: http.IncomingMessage, res: http.ServerResponse) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "OPTIONS, POST, GET, PUT, PATCH, DELETE");
+  if (req.method === "OPTIONS") {
+    res.writeHead(200);
+    return res.end();
   }
+  if (req.url?.startsWith('/auth/login')) {
+      authController.login(req, res);
+  } else {
+    res.statusCode = 404;
+    return res.end();
+  }
+}
+
 const server = http.createServer(requestListener);
 server.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
