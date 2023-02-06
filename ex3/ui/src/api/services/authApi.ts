@@ -12,6 +12,8 @@ import { UserSecretDto } from '../dtos/userSecretDto';
 import { userSecretMapper } from '../mappers/userSecretMapper';
 
 import { UserSecretStorageService } from './userSecretStorage';
+import { AppError } from 'src/models/appError';
+import { AuthQuery } from './queries/auth';
 
 /** Auth API. */
 export namespace AuthApi {
@@ -23,11 +25,28 @@ export namespace AuthApi {
    * Logs a user in with email and password.
    * @param loginData Login data.
    */
-  export async function login({ email, password }: Login): Promise<User> {
-    const userDto = await mockLogin(email, password);
-    const user = userMapper.fromDto(userDto);
+  export async function login({ email, password }: Login): Promise<UserSecret> {
+    const { data } = await AuthQuery.login(email, password);
+    console.log(data)
+    if (data?.authenticate.jwtToken == null) {
+      throw new AxiosError(undefined, "400", undefined, undefined,
+        {
+          data: {
+              data: {
+                  non_field_errors: ['Unable to log in with provided credentials.'],
+              },
+              detail: 'Unable to log in with provided credentials.',
+          },
+          status: 400,
+          statusText: "",
+          headers: {},
+          config: {},
+        }
+      );
+    }
+    const userSecret = userSecretMapper.fromDto(data);
 
-    return user;
+    return userSecret;
   }
 
   /** Logs the current user out. */
