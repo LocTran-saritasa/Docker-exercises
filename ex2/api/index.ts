@@ -11,8 +11,11 @@ const port = 8000 || process.env.PORT;
 connectToDB();
 
 const requestListener = (req: http.IncomingMessage, res: http.ServerResponse) => {
+  res.setHeader("Content-Type", "application/json");
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "OPTIONS, POST, GET, PUT, PATCH, DELETE");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
   if (req.method === "OPTIONS") {
     res.writeHead(200);
     return res.end();
