@@ -1,0 +1,11 @@
+.task-list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1.3rem;
+}
+
+.task-list__task {
+  margin: 10px;
+}

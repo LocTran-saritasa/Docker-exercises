@@ -17,13 +17,13 @@ const GroupListComponent: FC = () => {
   }, [dispatch])
 
   return (
-    <Box className={style['sidebar']}>
+    <Box className={style['group-list']}>
       <nav aria-label="main mailbox folders">
         <List>
           {
             groups.map(group => <ListItem disablePadding key={group.name}>
               <ListItemButton>
-                <ListItemText disableTypography className={style['sidebar__text']} primary={group.name} />
+                <ListItemText disableTypography className={style['group-list__text']} primary={group.name} />
               </ListItemButton>
             </ListItem>)
           }
