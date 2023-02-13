@@ -65,49 +65,4 @@ export namespace AuthApi {
 
     return userSecretMapper.fromDto(newSecretDto);
   }
-
-  // TODO (template preparation): This function was made for template. Remove it from your project.
-  /**
-   * Mocks user login.
-   * @param email Email.
-   * @param password Password.
-   */
-  async function mockLogin(email: string, password: string): Promise<UserDto> {
-    try {
-      return await http.post(loginUrl, {
-        email, password,
-      });
-    } catch (error: unknown) {
-      const axiosMockError = error as AxiosError<ApiErrorDto<LoginDto>>;
-      if (!email) {
-        axiosMockError.message = 'No login provided';
-        throw axiosMockError;
-      }
-
-      if (!password || password.length < 5) {
-        axiosMockError.message = 'Incorrect password';
-
-        axiosMockError.response = {
-          config: {},
-          data: {
-            data: {
-              password: ['Minimum password length 5 characters'],
-            },
-            detail: 'Incorrect password',
-          },
-          headers: {},
-          status: 400,
-          statusText: 'Validation error.',
-        };
-
-        throw axiosMockError;
-      }
-
-      return {
-        id: 1,
-        name: 'Test User',
-        email,
-      };
-    }
-  }
 }

@@ -5,8 +5,11 @@ export class User extends Immerable {
   /** User id. */
   public readonly id: number;
 
-  /** Name. */
-  public readonly name: string;
+  /** First name. */
+  public readonly firstname: string;
+
+  /** Last name. */
+  public readonly lastname: string;
 
   /** Name. */
   public readonly email: string;
@@ -14,7 +17,8 @@ export class User extends Immerable {
   public constructor(data: UserInitArgs) {
     super();
     this.id = data.id;
-    this.name = data.name;
+    this.firstname = data.firstname;
+    this.lastname = data.lastname;
     this.email = data.email;
   }
 }

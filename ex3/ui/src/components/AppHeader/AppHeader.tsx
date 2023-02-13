@@ -1,4 +1,4 @@
-import { memo, FC } from 'react';
+import { memo, FC, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
   AppBar, Box, Button, Link, Toolbar,
@@ -6,6 +6,7 @@ import {
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { AuthActions } from 'src/store/auth/dispatchers';
 import { selectUser } from 'src/store/user/selectors';
+import { UserActions } from 'src/store/user/dispatchers';
 
 const AppHeaderComponent: FC = () => {
   const user = useAppSelector(selectUser);
@@ -20,7 +21,7 @@ const AppHeaderComponent: FC = () => {
       <span>
         Hello,
         {' '}
-        <b>{user.name}</b>
+        <b>{user.lastname}</b>
       </span>
       <Button
         color="inherit"

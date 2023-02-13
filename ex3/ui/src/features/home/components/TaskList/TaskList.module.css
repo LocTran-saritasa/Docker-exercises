@@ -9,3 +9,7 @@
 .task-list__task {
   margin: 10px;
 }
+
+.task-list__task-title {
+  margin-right: 10px;
+}
