@@ -23,11 +23,13 @@ export namespace AuthApi {
    * Logs a user in with email and password.
    * @param loginData Login data.
    */
-  export async function login({ email, password }: Login): Promise<User> {
-    const userDto = await mockLogin(email, password);
-    const user = userMapper.fromDto(userDto);
+  export async function login({ email, password }: Login): Promise<UserSecret> {
+    const { data: userSecretDto } = await http.post<UserSecretDto>(loginUrl, {
+      email, password,
+    });
+    const userSecret = userSecretMapper.fromDto(userSecretDto);
 
-    return user;
+    return userSecret;
   }
 
   /** Logs the current user out. */
@@ -46,50 +48,5 @@ export namespace AuthApi {
     );
 
     return userSecretMapper.fromDto(newSecretDto);
-  }
-
-  // TODO (template preparation): This function was made for template. Remove it from your project.
-  /**
-   * Mocks user login.
-   * @param email Email.
-   * @param password Password.
-   */
-  async function mockLogin(email: string, password: string): Promise<UserDto> {
-    try {
-      return await http.post(loginUrl, {
-        email, password,
-      });
-    } catch (error: unknown) {
-      const axiosMockError = error as AxiosError<ApiErrorDto<LoginDto>>;
-      if (!email) {
-        axiosMockError.message = 'No login provided';
-        throw axiosMockError;
-      }
-
-      if (!password || password.length < 5) {
-        axiosMockError.message = 'Incorrect password';
-
-        axiosMockError.response = {
-          config: {},
-          data: {
-            data: {
-              password: ['Minimum password length 5 characters'],
-            },
-            detail: 'Incorrect password',
-          },
-          headers: {},
-          status: 400,
-          statusText: 'Validation error.',
-        };
-
-        throw axiosMockError;
-      }
-
-      return {
-        id: 1,
-        name: 'Test User',
-        email,
-      };
-    }
   }
 }
