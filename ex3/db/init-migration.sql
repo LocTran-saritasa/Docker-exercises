@@ -247,3 +247,39 @@ INSERT INTO public."translation" (wordId, language, text) VALUES (13, 'Vietnames
 INSERT INTO public."translation" (wordId, language, text) VALUES (11, 'Russian', 'один');
 INSERT INTO public."translation" (wordId, language, text) VALUES (12, 'Russian', 'четыре');
 INSERT INTO public."translation" (wordId, language, text) VALUES (13, 'Russian', 'Семь');
+
+-- CREATE FUNCTION public.task_group(groupId integer)
+-- RETURNS TABLE 
+-- AS $$
+-- RETURN
+--   SELECT
+--     *
+--   FROM public.task AS T
+--   RIGHT JOIN public.task_group AS TG
+--   ON T.id = TG.taskId;
+
+-- CREATE FUNCTION public.task_group(groupId integer)
+-- RETURNS TABLE () 
+-- AS $$
+--   SELECT *
+--   FROM public.task AS T
+--   RIGHT JOIN public.task_group AS TG
+--   ON T.id = TG.taskId
+--   WHERE TG.groupId = $1;
+-- $$ language SQL stable;
+
+CREATE FUNCTION public.task_group_sent(groupId integer)
+RETURNS TABLE (
+    task_id INTEGER,
+    task_name TEXT,
+    group_id INTEGER,
+    sent_at TIMESTAMP
+)
+AS $$
+  SELECT T.id AS task_id, T.name AS task_name, TG.groupId AS group_id, TG.sentAt AS sent_at
+  FROM public.task AS T
+  LEFT JOIN public.task_group AS TG
+  ON T.id = TG.taskId
+  WHERE TG.groupId = $1 OR TG.groupId IS NULL
+  ORDER BY T.id;
+$$ LANGUAGE SQL STABLE;
