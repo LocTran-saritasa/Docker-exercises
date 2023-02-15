@@ -17,6 +17,10 @@ export const tasksSlice = createSlice({
       state.tasks = action.payload;
       state.isLoading = false;
     })
+    .addCase(TasksActions.getSentTasksSuccess, (state, action) => {
+      state.sentTasks = action.payload;
+      state.isLoading = false;
+    })
     .addCase(TasksActions.getFailure, (state, action) => {
       state.error = action.payload;
       state.isLoading = false;

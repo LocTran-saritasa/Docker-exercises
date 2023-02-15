@@ -5,6 +5,7 @@ import { IMapperFromDto } from './mappers';
 class TaskMapper implements IMapperFromDto<TaskDto, Task> {
   fromDto(dto: TaskDto): Task {
       return new Task({
+        id: dto.id,
         name: dto.name,
       })
   }

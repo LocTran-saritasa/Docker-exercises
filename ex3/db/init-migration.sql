@@ -248,15 +248,15 @@ INSERT INTO public."translation" (wordId, language, text) VALUES (11, 'Russian',
 INSERT INTO public."translation" (wordId, language, text) VALUES (12, 'Russian', 'четыре');
 INSERT INTO public."translation" (wordId, language, text) VALUES (13, 'Russian', 'Семь');
 
-CREATE FUNCTION public.task_group_sent(groupId integer)
+CREATE FUNCTION public.sent_tasks(groupId integer)
 RETURNS TABLE (
-    task_id INTEGER,
-    task_name TEXT,
+    id INTEGER,
+    name TEXT,
     group_id INTEGER,
     sent_at TIMESTAMP
 )
 AS $$
-  SELECT T.id AS task_id, T.name AS task_name, TG.groupId AS group_id, TG.sentAt AS sent_at
+  SELECT T.id, T.name AS name, TG.groupId AS group_id, TG.sentAt AS sent_at
   FROM public.task AS T
   LEFT JOIN public.task_group AS TG
   ON T.id = TG.taskId

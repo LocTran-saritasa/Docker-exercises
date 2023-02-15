@@ -1,11 +1,13 @@
 import { AppError } from 'src/models/appError';
-import { Task } from 'src/models/task';
+import { SentTask, Task } from 'src/models/task';
 
 /** Tasks state. */
 export interface TasksState {
 
   /** Tasks list. */
   readonly tasks: Task[];
+
+  readonly sentTasks: SentTask[];
 
   /** Error. */
   readonly error?: AppError;
@@ -17,4 +19,5 @@ export interface TasksState {
 export const initialState: TasksState = {
   isLoading: false,
   tasks: [],
+  sentTasks: [],
 };
