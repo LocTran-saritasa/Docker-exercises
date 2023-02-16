@@ -13,11 +13,23 @@ export const tasksSlice = createSlice({
       state.error = undefined;
       state.isLoading = true;
     })
+    .addCase(TasksActions.getByGroupId, state => {
+      state.error = undefined;
+      state.isLoading = true;
+    })
+    .addCase(TasksActions.sendTask, (state, action) => {
+      state.error = undefined;
+      state.isLoading = true;
+    })
     .addCase(TasksActions.getSuccess, (state, action) => {
       state.tasks = action.payload;
       state.isLoading = false;
     })
     .addCase(TasksActions.getSentTasksSuccess, (state, action) => {
+      state.sentTasks = action.payload;
+      state.isLoading = false;
+    })
+    .addCase(TasksActions.sendTaskSuccess, (state, action) => {
       state.sentTasks = action.payload;
       state.isLoading = false;
     })

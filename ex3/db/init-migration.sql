@@ -232,9 +232,9 @@ INSERT INTO public."translation" (wordId, language, text) VALUES (3, 'French', '
 INSERT INTO public."translation" (wordId, language, text) VALUES (5, 'Vietnamese', 'Màu đỏ');
 INSERT INTO public."translation" (wordId, language, text) VALUES (6, 'Vietnamese', 'Màu xanh lá');
 INSERT INTO public."translation" (wordId, language, text) VALUES (7, 'Vietnamese', 'Màu xanh dương');
-INSERT INTO public."translation" (wordId, language, text) VALUES (5, 'Vietnamese', 'Красный');
-INSERT INTO public."translation" (wordId, language, text) VALUES (6, 'Vietnamese', 'Зеленый');
-INSERT INTO public."translation" (wordId, language, text) VALUES (7, 'Vietnamese', 'Синий');
+INSERT INTO public."translation" (wordId, language, text) VALUES (5, 'Russian', 'Красный');
+INSERT INTO public."translation" (wordId, language, text) VALUES (6, 'Russian', 'Зеленый');
+INSERT INTO public."translation" (wordId, language, text) VALUES (7, 'Russian', 'Синий');
 INSERT INTO public."translation" (wordId, language, text) VALUES (8, 'Vietnamese', 'Cục tẩy');
 INSERT INTO public."translation" (wordId, language, text) VALUES (9, 'Vietnamese', 'Cây viết');
 INSERT INTO public."translation" (wordId, language, text) VALUES (10, 'Vietnamese', 'Cuốn sách');
@@ -258,8 +258,16 @@ RETURNS TABLE (
 AS $$
   SELECT T.id, T.name AS name, TG.groupId AS group_id, TG.sentAt AS sent_at
   FROM public.task AS T
-  LEFT JOIN public.task_group AS TG
+  LEFT JOIN (SELECT * FROM public.task_group WHERE groupId = $1) AS TG
   ON T.id = TG.taskId
-  WHERE TG.groupId = $1 OR TG.groupId IS NULL
   ORDER BY T.id;
 $$ LANGUAGE SQL STABLE;
+
+CREATE FUNCTION public.send_task_to_group(taskId INT, groupId INT)
+RETURNS VOID
+AS $$
+BEGIN
+  INSERT INTO public.task_group (taskId, groupId, sentAt)
+  VALUES (taskId, groupId, NOW());
+END;
+$$ LANGUAGE plpgsql VOLATILE;

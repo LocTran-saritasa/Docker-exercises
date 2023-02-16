@@ -1,5 +1,6 @@
 import { FetchResult, gql } from '@apollo/client';
 import { UserDto } from 'src/api/dtos/userDto';
+
 import { client } from '../graphql-client';
 
 export namespace UserQuery {
@@ -13,8 +14,7 @@ export namespace UserQuery {
             lastname
             email
           }
-        }`
-    })
+        }`,
+    });
   }
 }
-

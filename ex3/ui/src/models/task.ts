@@ -1,3 +1,4 @@
+import { Group } from './group';
 import { Immerable, OmitImmerable } from './immerable';
 
 export class Task extends Immerable {
@@ -19,6 +20,11 @@ export class SentTask extends Task {
     this.groupId = data.groupId;
     this.sentAt = data.sentAt;
   }
+}
+
+export interface SendTaskData {
+  readonly taskId: Task['id']
+  readonly groupId: Group['id']
 }
 
 type TaskInitArgs = OmitImmerable<Task>;

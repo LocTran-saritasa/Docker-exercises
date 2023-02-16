@@ -1,5 +1,5 @@
 import { FetchResult, gql } from '@apollo/client';
-import { SentTasksDto } from 'src/api/dtos/taskDto';
+import { SendTaskDataDto, SentTasksDto } from 'src/api/dtos/taskDto';
 import { Group } from 'src/models/group';
 import { client } from '../graphql-client';
 
@@ -18,6 +18,26 @@ export namespace TaskQuery {
           }
         }
         `
+    })
+  }
+
+  export async function sendTask(data: SendTaskDataDto): Promise<FetchResult<SentTasksDto>> {
+    return client.mutate<SentTasksDto>({
+      mutation: gql`
+        mutation {
+          sendTaskToGroup(input: {groupid: ${data.groupId}, taskid: ${data.taskId}}) {
+            query {
+              sentTasks {
+                nodes {
+                  groupId
+                  id
+                  name
+                  sentAt
+                }
+              }
+            }
+          }
+        }`
     })
   }
 }

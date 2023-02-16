@@ -25,8 +25,8 @@ export namespace AuthApi {
    * Logs a user in with email and password.
    * @param loginData Login data.
    */
-  export async function login({ email, password }: Login): Promise<UserSecret> {
-    const { data } = await AuthQuery.login(email, password);
+  export async function login(loginData: Login): Promise<UserSecret> {
+    const { data } = await AuthQuery.login(loginData);
     if (data?.authenticate.jwtToken == null) {
       throw new AxiosError(undefined, "400", undefined, undefined,
         {
