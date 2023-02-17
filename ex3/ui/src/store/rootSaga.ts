@@ -1,7 +1,9 @@
 import { all, call, spawn } from 'redux-saga/effects';
 
 import { authSaga } from './auth/sagas';
+import { groupsSaga } from './groups/sagas';
 import { postsSaga } from './posts/sagas';
+import { tasksSaga } from './task/sagas';
 import { userSaga } from './user/sagas';
 
 /**
@@ -12,6 +14,8 @@ export function* rootSaga() {
     postsSaga,
     authSaga,
     userSaga,
+    groupsSaga,
+    tasksSaga,
   ];
 
   yield all(sagas.map(saga => spawn(function* spawnFunction() {

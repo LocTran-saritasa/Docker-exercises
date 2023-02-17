@@ -10,14 +10,16 @@ class UserSecretMapper implements IMapper<UserSecretDto, UserSecret> {
   /** @inheritdoc */
   public toDto(data: UserSecret): UserSecretDto {
     return {
-      token: data.token,
+      authenticate: {
+        jwtToken: data.token,
+      },
     };
   }
 
   /** @inheritdoc */
   public fromDto(dto: UserSecretDto): UserSecret {
     return {
-      token: dto.token,
+      token: dto.authenticate.jwtToken,
     };
   }
 }
