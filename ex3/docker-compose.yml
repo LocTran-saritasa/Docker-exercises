@@ -31,10 +31,10 @@ services:
     ports:
        - 5432:5432
 
-  #ui:
-  #  build: ./ui
-  #  ports:
-  #     - 3000:3000
+  ui:
+   build: ./ui
+   ports:
+      - 3000:3000
 
 volumes:
   vocabulary-db-data:
