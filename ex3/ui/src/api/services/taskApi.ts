@@ -29,6 +29,6 @@ export namespace TaskApiService {
     if (data == null) {
       throw new Error();
     }
-    return data.sentTasks.nodes.map(dto => sentTaskMapper.fromDto(dto));
+    return data.sendTaskToGroup.query.sentTasks.nodes.map(dto => sentTaskMapper.fromDto(dto));
   }
 }

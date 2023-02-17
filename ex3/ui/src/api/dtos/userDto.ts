@@ -1,7 +1,8 @@
 /** User DTO. */
 export interface UserDto {
 
-  userProfile: {
+  /** User's profile. */
+  readonly userProfile: {
 
     /** Id. */
     readonly id: number;
@@ -14,6 +15,5 @@ export interface UserDto {
 
     /** Email. */
     readonly email: string;
-  }
-
+  };
 }

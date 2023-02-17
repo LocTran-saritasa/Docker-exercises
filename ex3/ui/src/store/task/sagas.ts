@@ -69,8 +69,7 @@ export function* tasksSaga(): SagaIterator {
   yield takeEvery(
     TasksActions.sendTask.type,
     function* (action: ReturnType<typeof TasksActions.sendTask>): SagaIterator {
-      const task = yield fork(sendTaskWorker, action);
-      yield cancel(task);
+      yield fork(sendTaskWorker, action);
     },
   );
 }

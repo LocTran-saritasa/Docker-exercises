@@ -1,9 +1,12 @@
 import { FetchResult, gql } from '@apollo/client';
 import { AllGroupsDto } from 'src/api/dtos/groupDto';
+
 import { client } from '../graphql-client';
 
 export namespace GroupQuery {
-  export async function getGroups(): Promise<FetchResult<AllGroupsDto>> {
+
+  /** Get existing groups. */
+  export function getGroups(): Promise<FetchResult<AllGroupsDto>> {
     return client.query<AllGroupsDto>({
       query: gql`
         query GetGroups {
@@ -13,7 +16,7 @@ export namespace GroupQuery {
               name
             }
           }
-        }`
-    })
+        }`,
+    });
   }
 }

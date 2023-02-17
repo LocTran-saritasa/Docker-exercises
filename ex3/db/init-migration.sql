@@ -257,7 +257,7 @@ RETURNS TABLE (
 )
 AS $$
   SELECT T.id, T.name AS name, TG.groupId AS group_id, TG.sentAt AS sent_at
-  FROM public.task AS T
+  FROM (SELECT* FROM public.task WHERE userId = current_user_id()) AS T
   LEFT JOIN (SELECT * FROM public.task_group WHERE groupId = $1) AS TG
   ON T.id = TG.taskId
   ORDER BY T.id;
@@ -270,4 +270,4 @@ BEGIN
   INSERT INTO public.task_group (taskId, groupId, sentAt)
   VALUES (taskId, groupId, NOW());
 END;
-$$ LANGUAGE plpgsql VOLATILE;
+$$ language plpgsql strict SECURITY DEFINER;

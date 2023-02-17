@@ -1,24 +1,17 @@
 import { AxiosError } from 'axios';
-import { UserSecret } from 'src/models/userSecret';
-import { User } from 'src/models/user';
 import { Login } from 'src/models/loginValues';
+import { UserSecret } from 'src/models/userSecret';
 
-import { LoginDto } from '../dtos/loginDto';
-import { UserDto } from '../dtos/userDto';
-import { ApiErrorDto } from '../dtos/validationErrorDto';
-import { userMapper } from '../mappers/userMapper';
-import { http } from '../http';
 import { UserSecretDto } from '../dtos/userSecretDto';
+import { http } from '../http';
 import { userSecretMapper } from '../mappers/userSecretMapper';
 
-import { UserSecretStorageService } from './userSecretStorage';
-import { AppError } from 'src/models/appError';
 import { AuthQuery } from './queries/auth';
+import { UserSecretStorageService } from './userSecretStorage';
 
 /** Auth API. */
 export namespace AuthApi {
 
-  const loginUrl = 'auth/login/';
   const refreshSecretUrl = 'auth/token/refresh/';
 
   /**
@@ -28,20 +21,18 @@ export namespace AuthApi {
   export async function login(loginData: Login): Promise<UserSecret> {
     const { data } = await AuthQuery.login(loginData);
     if (data?.authenticate.jwtToken == null) {
-      throw new AxiosError(undefined, "400", undefined, undefined,
-        {
+      throw new AxiosError(undefined, '400', undefined, undefined, {
+        data: {
           data: {
-              data: {
-                  non_field_errors: ['Unable to log in with provided credentials.'],
-              },
-              detail: 'Unable to log in with provided credentials.',
+            non_field_errors: ['Unable to log in with provided credentials.'],
           },
-          status: 400,
-          statusText: "",
-          headers: {},
-          config: {},
-        }
-      );
+          detail: 'Unable to log in with provided credentials.',
+        },
+        status: 400,
+        statusText: '',
+        headers: {},
+        config: {},
+      });
     }
     const userSecret = userSecretMapper.fromDto(data);
 

@@ -12,7 +12,7 @@ class UserSecretMapper implements IMapper<UserSecretDto, UserSecret> {
     return {
       authenticate: {
         jwtToken: data.token,
-      }
+      },
     };
   }
 

@@ -1,29 +1,33 @@
-import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Divider } from '@mui/material';
-import { FC, memo, useEffect } from 'react'
+import { Box, CircularProgress, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
+import { FC, memo, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Group } from 'src/models/group';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { GroupsActions } from 'src/store/groups/dispatchers';
-import { selectGroups } from 'src/store/groups/selectors';
-import style from './GroupList.module.css'
+
+import style from './GroupList.module.css';
 
 const GroupListComponent: FC = () => {
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
   const { groups, isLoading } = useAppSelector(state => state.groups);
 
-  const [getSearchParams, setSearchParams] = useSearchParams();
+  const [, setSearchParams] = useSearchParams();
 
   useEffect(() => {
-    dispatch(GroupsActions.get())
+    dispatch(GroupsActions.get());
     return () => {
-      dispatch(GroupsActions.cancelGet())
-    }
-  }, [dispatch])
+      dispatch(GroupsActions.cancelGet());
+    };
+  }, [dispatch]);
 
   const selectGroupHandler = (groupId: Group['id']) => {
     setSearchParams({
       group: groupId.toString(),
-    })
+    });
+  };
+
+  if (isLoading) {
+    return <CircularProgress />;
   }
 
   return (
@@ -40,7 +44,7 @@ const GroupListComponent: FC = () => {
         </List>
       </nav>
     </Box>
-  )
-}
+  );
+};
 
 export const GroupList = memo(GroupListComponent);

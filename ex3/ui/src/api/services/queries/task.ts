@@ -1,10 +1,16 @@
 import { FetchResult, gql } from '@apollo/client';
-import { SendTaskDataDto, SentTasksDto } from 'src/api/dtos/taskDto';
+import { SendTaskDataDto, SentTasksDto, UpdatedTaskDto } from 'src/api/dtos/taskDto';
 import { Group } from 'src/models/group';
+
 import { client } from '../graphql-client';
 
 export namespace TaskQuery {
-  export async function getTasksByGroupId(id: Group['id']): Promise<FetchResult<SentTasksDto>> {
+
+  /**
+   * Get task by group id.
+   * @param id Group's id.
+   */
+  export function getTasksByGroupId(id: Group['id']): Promise<FetchResult<SentTasksDto>> {
     return client.query<SentTasksDto>({
       query: gql`
         query MyQuery {
@@ -17,17 +23,21 @@ export namespace TaskQuery {
             }
           }
         }
-        `
-    })
+        `,
+    });
   }
 
-  export async function sendTask(data: SendTaskDataDto): Promise<FetchResult<SentTasksDto>> {
-    return client.mutate<SentTasksDto>({
+  /**
+   * Send task.
+   * @param data Send task data.
+   */
+  export function sendTask(data: SendTaskDataDto): Promise<FetchResult<UpdatedTaskDto>> {
+    return client.mutate<UpdatedTaskDto>({
       mutation: gql`
         mutation {
           sendTaskToGroup(input: {groupid: ${data.groupId}, taskid: ${data.taskId}}) {
             query {
-              sentTasks {
+              sentTasks(groupid: ${data.groupId}) {
                 nodes {
                   groupId
                   id
@@ -37,7 +47,7 @@ export namespace TaskQuery {
               }
             }
           }
-        }`
-    })
+        }`,
+    });
   }
 }

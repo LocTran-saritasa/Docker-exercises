@@ -13,3 +13,8 @@
 .task-list__task-title {
   margin-right: 10px;
 }
+
+.task-list__message {
+  width: 100%;
+  text-align: center;
+}

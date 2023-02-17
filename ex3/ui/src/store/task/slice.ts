@@ -17,7 +17,7 @@ export const tasksSlice = createSlice({
       state.error = undefined;
       state.isLoading = true;
     })
-    .addCase(TasksActions.sendTask, (state, action) => {
+    .addCase(TasksActions.sendTask, state => {
       state.error = undefined;
       state.isLoading = true;
     })
